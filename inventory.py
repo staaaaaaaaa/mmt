@@ -1,9 +1,11 @@
-from tabulate import tabulate
+from tabulate import tabulate, SEPARATING_LINE
 from datetime import datetime
 
 class Product:
-    def __init__(self, id, name, quantity, price_purchase, price_sell):
-        self.id = id
+    last_id = 0
+    def __init__(self,  name, quantity, price_purchase, price_sell):
+        Product.last_id += 1
+        self.id = Product.last_id
         self.name = name
         self.quantity = quantity
         self.price_purchase = price_purchase
@@ -18,11 +20,13 @@ class Inventory:
         self.revenue = 0
         self.costs = 0
 
+    
+
 
     def print_list_of_products(self):
         inventory_table = []
         for product in self.inventory:
-            inventory_table.append({k: v for i, (k, v) in enumerate(vars(product).items()) if i < len(vars(product)) - 2})
+            inventory_table.append({k: v for i, (k, v) in enumerate(vars(product).items())})
         print(tabulate(inventory_table, headers='keys'))
     
     def print_product_info(self, product_name):
@@ -36,7 +40,7 @@ class Inventory:
         print(tabulate(self.inventory_logs, headers='keys'))
 
     def print_financial_report(self):
-        print(tabulate([['revenue', self.revenue], ['cost', self.costs], ['profit', self.revenue - self.costs]]))
+        print(tabulate([['inventory value', self.revenue - self.costs], ['revenue', self.revenue], ['cost', self.costs], SEPARATING_LINE, ['profit', self.revenue - self.costs]]))
 
 
                 
@@ -77,3 +81,10 @@ class Inventory:
         self.inventory_logs.append({'date': datetime.now(), 
                                 'transaction': log})
         print(log)
+
+    def calculate_inventory_value(self,user_ids=''):
+        if len(user_ids) == 0:
+            ids = [product.id for product in self.inventory]
+        else:
+            ids = [int(id) for id in user_ids.replace(' ','').split(',')]
+        print(sum([product.quantity * product.price_purchase  for product in self.inventory if product.id in ids]))
