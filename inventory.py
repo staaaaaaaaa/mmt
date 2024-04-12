@@ -66,7 +66,7 @@ class Inventory:
             if product.name == product_name: # going through the list of products and finding needed one for updating
                 product.quantity += added_items
                 log = f"Added new stock for {product_name}: {product.quantity - added_items} -> {product.quantity}"
-                self.costs += product.quantity * product.price_purchase # updating costs
+                self.costs += added_items * product.price_purchase # updating costs
         self.inventory_logs.append({'date': datetime.now(), 'transaction': log}) # saving restocking trasaction  
         print(log)
 
@@ -83,7 +83,7 @@ class Inventory:
             if product.name == product_name and product.quantity >= sold_items: # checking whenever the product can be sold or not
                 product.quantity -= sold_items
                 log = f"Sold {product_name}: {product.quantity + sold_items} -> {product.quantity}" 
-                self.revenue += product.quantity * product.price_sell # updating revenue
+                self.revenue += sold_items * product.price_sell # updating revenue
             elif product.name == product_name and product.quantity < sold_items:
                 log = f"Unsuccessful transaction. Not enough stock to sell {sold_items} of {product_name}: {product.quantity}" 
         self.inventory_logs.append({'date': datetime.now(), 'transaction': log}) # saving selling trasaction  

@@ -31,8 +31,10 @@ def get_numeric_input(prompt):
             print("Invalid input. Please enter a numeric value.")
         else:
             return float(user_input)
+            break
 
 
+# Displaying a welcome message
 print("""
 █▀▀ █▀█ █▀█ █▀▀ █▀▀ █▀█ █▄█ █░█ ▄▀█ █░░ █░░
 █▄█ █▀▄ █▄█ █▄▄ ██▄ █▀▄ ░█░ ▀▀█ █▀█ █▄▄ █▄▄
@@ -41,10 +43,10 @@ print("""
 print("""==============BOOKING SYSTEM==============""")
 
 # Main program loop
-
 while True:
-    print('Choose a section to continue.')
+    print('\nChoose a section to continue.')
 
+    # Displaying options for the user to choose from
     print("""1. Inventory management: View, add, restock and sell products.
 2. Transactions management: View transactions and financial metrics.
 3. Exit.
@@ -59,62 +61,35 @@ while True:
 4. Sell Product            
           """)
         choice = input("Enter your choice: ")
+
+        # Handling user choices for inventory management
         if choice == '1':
             inventory.print_list_of_products()
+            
         elif choice == '2':
+            # Adding a new product to the inventory
             name = input("Enter product name: ")
-
-            # Input validation for quantity
-            while True:
-                quantity = input("Enter product quantity: ")
-                if not quantity.isdigit():
-                    print("Invalid input. Quantity should be numeric.")
-                else:
-                    break
-
-            # Input validation for purchase price
-            while True:
-                price_purchase = input("Enter purchase price: ")
-                if not price_purchase.replace('.', '', 1).isdigit():
-                    print("Invalid input. Purchase price should be numeric.")
-                else:
-                    break
-
-            # Input validation for selling price
-            while True:
-                price_sell = input("Enter selling price: ")
-                if not price_sell.replace('.', '', 1).isdigit():
-                    print("Invalid input. Selling price should be numeric.")
-                else:
-                    break
+            quantity = get_numeric_input("Enter product quantity: ")
+            price_purchase = get_numeric_input("Enter purchase price: ")
+            price_sell = get_numeric_input("Enter selling price: ")
 
             new_product = Product(name, int(quantity), float(price_purchase), float(price_sell))
             inventory.add_new_product_to_inventory(new_product)
-        elif choice == '3':
-            product_name = input("Enter product name to restock: ")
 
-            # Input validation for added quantity
-            while True:
-                added_items = input("Enter quantity to add: ")
-                if not added_items.isdigit():
-                    print("Invalid input. Quantity should be numeric.")
-                else:
-                    break
+        elif choice == '3':
+            # Restocking an existing product
+            product_name = input("Enter product name to restock: ")
+            added_items = get_numeric_input("Enter quantity to add: ")
 
             inventory.restock_product(product_name, int(added_items))
             
         elif choice == '4':
+            # Selling a product
             product_name = input("Enter product name to sell: ")
-
-            # Input validation for sold quantity
-            while True:
-                sold_items = input("Enter quantity to sell: ")
-                if not sold_items.isdigit():
-                    print("Invalid input. Quantity should be numeric.")
-                else:
-                    break
+            sold_items = get_numeric_input("Enter quantity to sell: ")
 
             inventory.sell_product_stock(product_name, int(sold_items))
+
     if section == '2':
         print("""1. Show Last Transactions
 2. Show Financial Report (all financial metrics)
@@ -125,6 +100,7 @@ while True:
           """)
         choice = input("Enter your choice: ")
 
+        # Handling user choices for transactions management
         if choice == '1':
             inventory.print_transactions_logs()
         elif choice == '2':
@@ -139,8 +115,7 @@ while True:
             ids = input("Enter ids separated by comma or skip to calculate all: ")
             print(f"Inventory Value: {inventory.calculate_inventory_value(ids)}")
 
+    # Exiting the program
     elif section == '3':
         print("============== Have a nice day! ==============")
         break
-    else:
-        print("Invalid choice. Please try again.")
