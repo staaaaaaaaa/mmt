@@ -1,6 +1,6 @@
 from inventory import *
 
-### creating an initial inventory
+# creating an initial inventory
 inventory = Inventory([ 
     Product("Apple", 100, 5, 8),
     Product("Banana", 50, 10, 12),
@@ -14,6 +14,8 @@ inventory = Inventory([
     Product("Potato", 120, 0.3, 0.5)
 
 ])
+
+# numeric input validation
 
 def get_numeric_input(prompt):
     """
@@ -34,7 +36,8 @@ def get_numeric_input(prompt):
             break
 
 
-# Displaying a welcome message
+# displaying a welcome message
+
 print("""
 █▀▀ █▀█ █▀█ █▀▀ █▀▀ █▀█ █▄█ █░█ ▄▀█ █░░ █░░
 █▄█ █▀▄ █▄█ █▄▄ ██▄ █▀▄ ░█░ ▀▀█ █▀█ █▄▄ █▄▄
@@ -42,11 +45,11 @@ print("""
 
 print("""==============BOOKING SYSTEM==============""")
 
-# Main program loop
+# main program loop
 while True:
     print('\nChoose a section to continue.')
 
-    # Displaying options for the user to choose from
+    # displaying options for the user to choose from
     print("""1. Inventory management: View, add, restock and sell products.
 2. Transactions management: View transactions and financial metrics.
 3. Exit.
@@ -62,12 +65,12 @@ while True:
           """)
         choice = input("Enter your choice: ")
 
-        # Handling user choices for inventory management
+        # handling user choices for inventory management
         if choice == '1':
             inventory.print_list_of_products()
             
         elif choice == '2':
-            # Adding a new product to the inventory
+            # adding a new product to the inventory
             name = input("Enter product name: ")
             quantity = get_numeric_input("Enter product quantity: ")
             price_purchase = get_numeric_input("Enter purchase price: ")
@@ -77,45 +80,52 @@ while True:
             inventory.add_new_product_to_inventory(new_product)
 
         elif choice == '3':
-            # Restocking an existing product
+            # restocking an existing product
             product_name = input("Enter product name to restock: ")
             added_items = get_numeric_input("Enter quantity to add: ")
 
             inventory.restock_product(product_name, int(added_items))
             
         elif choice == '4':
-            # Selling a product
+            # selling a product
             product_name = input("Enter product name to sell: ")
             sold_items = get_numeric_input("Enter quantity to sell: ")
 
             inventory.sell_product_stock(product_name, int(sold_items))
 
+    # handling user choices for transactions management
     if section == '2':
+        
         print("""1. Show Last Transactions
-2. Show Financial Report (all financial metrics)
-3. Show Revenue
-4. Show Costs
-5. Show Profit 
-6. Calculate Inventory Value            
-          """)
+    2. Show Financial Report (all financial metrics)
+    3. Show Revenue
+    4. Show Costs
+    5. Show Profit 
+    6. Calculate Inventory Value            
+            """)
         choice = input("Enter your choice: ")
 
-        # Handling user choices for transactions management
+        
         if choice == '1':
+            # showing the last transactions
             inventory.print_transactions_logs()
         elif choice == '2':
+            # showing the financial report with all metrics
             inventory.print_financial_report()
         elif choice == '3':
+            # showing the total revenue
             print(f"Revenue: {inventory.revenue}")
         elif choice == '4':
+            # showing the total costs
             print(f"Costs: {inventory.costs}")
         elif choice == '5':
+            # calculating and displashowingying the total profit
             print(f"Profit: {inventory.revenue - inventory.costs}")
         elif choice == '6':
-            ids = input("Enter ids separated by comma or skip to calculate all: ")
+            # calculating and showing the inventory value based on user input
+            ids = input("Enter ids separated by comma or press Enter to calculate all: ")
             print(f"Inventory Value: {inventory.calculate_inventory_value(ids)}")
-
-    # Exiting the program
-    elif section == '3':
-        print("============== Have a nice day! ==============")
-        break
+        # Exiting the program
+        elif section == '3':
+            print("============== Have a nice day! ==============")
+            break
