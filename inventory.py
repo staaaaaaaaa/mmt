@@ -63,7 +63,7 @@ class Inventory:
         """
         log = f'Unsuccessful transaction. {product_name} not found in the inventory. Try again or add product.'
         for product in self.inventory: 
-            if product.name == product_name: # going through the list of products and finding needed one for updating
+            if product.name == product_name: # going through the list of products and finding needed one specified by user
                 product.quantity += added_items
                 log = f"Added new stock for {product_name}: {product.quantity - added_items} -> {product.quantity}"
                 self.costs += added_items * product.price_purchase # updating costs
@@ -104,13 +104,16 @@ class Inventory:
         if len(user_ids) == 0: # if user didn't specify the ids the whole inventory's value will be printed
             ids = [product.id for product in self.inventory]
         else:
-            ids = [int(id) for id in user_ids.replace(' ','').split(',')]
+            ids = [int(id) for id in user_ids.replace(' ','').split(',')] # tranforming user input to the list if ids
+
+        # using the list "ids" consisting either of all ids or from user input to get their quantity and price_purchase from the inverntory
         return (sum([product.quantity * product.price_purchase  for product in self.inventory if product.id in ids]))
 
 
     def print_list_of_products(self):
         """Print a table of all products in the inventory."""
         inventory_table = []
+
         for product in self.inventory:
             inventory_table.append({k: v for i, (k, v) in enumerate(vars(product).items())}) 
         print(tabulate(inventory_table, headers='keys'))

@@ -125,7 +125,8 @@ while True:
             # calculating and showing the inventory value based on user input
             ids = input("Enter ids separated by comma or press Enter to calculate all: ")
             print(f"Inventory Value: {inventory.calculate_inventory_value(ids)}")
-        # Exiting the program
-        elif section == '3':
-            print("============== Have a nice day! ==============")
-            break
+    
+    # exiting the program
+    elif section == '3':
+        print("============== Have a nice day! ==============")
+        break
